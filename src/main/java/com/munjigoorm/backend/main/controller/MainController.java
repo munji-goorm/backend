@@ -13,7 +13,7 @@ public class MainController {
     private MainService mainService;
 
     @GetMapping
-    public String airInfo(@RequestParam String stationName) {
-        return mainService.getAirInfo(stationName);
+    public String airInfo(@RequestParam String stationName, @RequestParam String city) {
+        return mainService.getAirInfo(stationName, city);
     }
 }

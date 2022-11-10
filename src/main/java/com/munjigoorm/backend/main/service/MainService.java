@@ -3,11 +3,14 @@ package com.munjigoorm.backend.main.service;
 import com.google.gson.*;
 import com.munjigoorm.backend.main.dto.StationResponse;
 import com.munjigoorm.backend.main.entity.Air;
+import com.munjigoorm.backend.main.entity.CityStation;
 import com.munjigoorm.backend.main.repository.AirRepository;
+import com.munjigoorm.backend.main.repository.CityStationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,7 +19,10 @@ public class MainService {
     @Autowired
     private AirRepository airRepository;
 
-    public String getAirInfo(String stationName) {
+    @Autowired
+    private CityStationRepository cityStationRepository;
+
+    public String getAirInfo(String stationName, String city) {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -25,6 +31,7 @@ public class MainService {
 
         // 존재하는 경우
         if(air.isPresent()) {
+            JsonObject data = new JsonObject();
             Air airResponse = air.get();
             responseJson.addProperty("status", 200);
             responseJson.addProperty("success", true);
@@ -46,10 +53,26 @@ public class MainService {
                     .so2Value(airResponse.getSo2Value())
                     .so2State(calStateFloat(airResponse.getSo2Value(), "so2"))
                     .build();
-            JsonObject stationInfo = new JsonObject();
-            stationInfo.add("stationInfo", JsonParser.parseString(gson.toJson(stationResponse)));
-            responseJson.add("data", stationInfo);
+            data.add("stationInfo", JsonParser.parseString(gson.toJson(stationResponse)));
 
+
+            /* 예보 정보 가져오기 */
+
+
+            // 전국 통합대기질 정보 조회
+            List<CityStation> cityStations = cityStationRepository.findAll();
+            JsonObject nationwide = new JsonObject();
+            for(CityStation cityStation: cityStations) {
+                String cityName = cityStation.getCityName();
+                String cityStationName = cityStation.getStationName();
+                Optional<Air> cityAir = airRepository.findById(cityStationName);
+                if(cityAir.isPresent()) {
+                    Air cityAirResponse = cityAir.get();
+                    nationwide.addProperty(cityName, calStateInteger(cityAirResponse.getKhaiValue(), "khai"));
+                }
+            }
+            data.add("nationwide", nationwide);
+            responseJson.add("data", data);
         } else{
             responseJson.addProperty("status", 200);
             responseJson.addProperty("success", false);
