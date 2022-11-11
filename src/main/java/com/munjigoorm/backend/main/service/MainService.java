@@ -82,7 +82,7 @@ public class MainService {
         return responseJson.toString();
     }
 
-    public String calStateFloat(float value, String type) {
+    public static String calStateFloat(float value, String type) {
         String status = "";
         if(value < 0) status = "통신오류";
 
@@ -113,7 +113,7 @@ public class MainService {
         return status;
     }
 
-    public String calStateInteger(int value, String type) {
+    public static String calStateInteger(int value, String type) {
         String status = "";
         if(value < 0) status = "통신오류";
 
