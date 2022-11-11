@@ -30,7 +30,6 @@ public class MapService {
 
     public String getMapInfo() {
         JsonObject responseJson = new JsonObject();
-        JsonObject data = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         responseJson.addProperty("status", 200);
@@ -55,11 +54,9 @@ public class MapService {
                         .khaiValue(airResponse.getKhaiValue())
                         .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
                         .pm10Value(airResponse.getPm10Value())
-                        .pm10StateK(calStateInteger(airResponse.getPm10Value(), "pm10K"))
-                        .pm10StateW(calStateInteger(airResponse.getPm10Value(), "pm10W"))
+                        .pm10State(calStateInteger(airResponse.getPm10Value(), "pm10W"))
                         .pm25Value(airResponse.getPm25Value())
-                        .pm25StateK(calStateInteger(airResponse.getPm25Value(), "pm25K"))
-                        .pm25StateW(calStateInteger(airResponse.getPm25Value(), "pm25W"))
+                        .pm25State(calStateInteger(airResponse.getPm25Value(), "pm25W"))
                         .o3Value(airResponse.getO3Value())
                         .o3State(calStateFloat(airResponse.getO3Value(), "o3"))
                         .coValue(airResponse.getCoValue())

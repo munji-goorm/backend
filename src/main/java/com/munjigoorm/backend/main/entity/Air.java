@@ -21,7 +21,7 @@ public class Air {
     private String stationName;
 
     @Column(name = "date_time")
-    private Timestamp dateTime;
+    private String dateTime;
 
     @Column(name = "sido_name")
     private String sidoName;
@@ -51,7 +51,7 @@ public class Air {
     private Float so2Value;
 
     @Builder
-    public Air(String stationName, Timestamp dateTime, String sidoName, String mangName, Integer khaiValue, Integer pm10Value, Integer pm25Value, Float o3Value, Float coValue, Float no2Value, Float so2Value) {
+    public Air(String stationName, String dateTime, String sidoName, String mangName, Integer khaiValue, Integer pm10Value, Integer pm25Value, Float o3Value, Float coValue, Float no2Value, Float so2Value) {
         this.stationName = stationName;
         this.dateTime = dateTime;
         this.sidoName = sidoName;

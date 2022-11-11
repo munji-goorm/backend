@@ -4,12 +4,15 @@ import com.google.gson.*;
 import com.munjigoorm.backend.main.dto.StationResponse;
 import com.munjigoorm.backend.main.entity.Air;
 import com.munjigoorm.backend.main.entity.CityStation;
+import com.munjigoorm.backend.main.entity.ForeCast;
 import com.munjigoorm.backend.main.repository.AirRepository;
 import com.munjigoorm.backend.main.repository.CityStationRepository;
-import lombok.RequiredArgsConstructor;
+import com.munjigoorm.backend.main.repository.ForeCastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,9 @@ public class MainService {
 
     @Autowired
     private CityStationRepository cityStationRepository;
+
+    @Autowired
+    private ForeCastRepository foreCastRepository;
 
     public String getAirInfo(String stationName, String city) {
         JsonObject responseJson = new JsonObject();
@@ -35,6 +41,8 @@ public class MainService {
             Air airResponse = air.get();
             responseJson.addProperty("status", 200);
             responseJson.addProperty("success", true);
+
+            // 특정 측정소의 대기 정보 조회
             StationResponse stationResponse = StationResponse.builder()
                     .khaiValue(airResponse.getKhaiValue())
                     .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
@@ -55,9 +63,17 @@ public class MainService {
                     .build();
             data.add("stationInfo", JsonParser.parseString(gson.toJson(stationResponse)));
 
+            // 예보 정보 조회
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+            Calendar date = Calendar.getInstance();
+            JsonObject foreCast = new JsonObject();
 
-            /* 예보 정보 가져오기 */
-
+            for(int i=0; i<6; i++) {
+                ForeCast fc = foreCastRepository.findByCityAndDateTime(city, sdf.format(date.getTime()));
+                foreCast.addProperty(fc.getDateTime(), fc.getStatus());
+                date.add(Calendar.DATE, 1);
+            }
+            data.add("forecast", foreCast);
 
             // 전국 통합대기질 정보 조회
             List<CityStation> cityStations = cityStationRepository.findAll();
@@ -72,6 +88,7 @@ public class MainService {
                 }
             }
             data.add("nationwide", nationwide);
+
             responseJson.add("data", data);
         } else{
             responseJson.addProperty("status", 200);

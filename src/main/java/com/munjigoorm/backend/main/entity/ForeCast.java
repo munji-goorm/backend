@@ -16,8 +16,15 @@ import java.sql.Timestamp;
 public class ForeCast {
 
     @Id
-    @Column(name = "date_time")
-    private Timestamp dateTime;
+    @Column(name = "id")
+    private Integer forecastId;
 
-    //@Column(name = "")
+    @Column(name = "date_time")
+    private String dateTime;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "status")
+    private String status;
 }
