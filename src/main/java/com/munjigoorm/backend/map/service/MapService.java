@@ -40,8 +40,6 @@ public class MapService {
         List<MapResponse> mapResponses = new ArrayList<>();
 
         for(Station station : stations) {
-            System.out.println(station.getStationName() + ", " + station.getDmX() + ", " + station.getDmY());
-
             // stationName의 대기 오염 정보 조회
             Optional<Air> air = airRepository.findById(station.getStationName());
 
