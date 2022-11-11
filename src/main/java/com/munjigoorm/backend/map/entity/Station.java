@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "rt_station_info")
+@Table(name = "air_station_info")
 public class Station {
 
     @Id

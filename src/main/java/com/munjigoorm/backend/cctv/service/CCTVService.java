@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.munjigoorm.backend.cctv.entity.CCTV;
 import com.munjigoorm.backend.cctv.repository.CCTVRepository;
-import com.munjigoorm.backend.map.entity.Station;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
