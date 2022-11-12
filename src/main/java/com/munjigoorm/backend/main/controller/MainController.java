@@ -15,4 +15,9 @@ public class MainController {
     public String airInfo(@RequestParam String stationName, @RequestParam String addr) {
         return mainService.getAirInfo(stationName, addr);
     }
+
+    @GetMapping(value = "/search")
+    public String airInfo(@RequestParam String keyword) {
+        return mainService.getRegionList(keyword);
+    }
 }

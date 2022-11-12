@@ -1,23 +1,19 @@
 package com.munjigoorm.backend.main.service;
 
 import com.google.gson.*;
+import com.munjigoorm.backend.main.dto.AddressResponse;
 import com.munjigoorm.backend.main.dto.StationResponse;
+import com.munjigoorm.backend.main.entity.Address;
 import com.munjigoorm.backend.main.entity.Air;
-import com.munjigoorm.backend.main.entity.CityStation;
 import com.munjigoorm.backend.main.entity.ForeCast;
+import com.munjigoorm.backend.main.repository.AddressRepository;
 import com.munjigoorm.backend.main.repository.AirRepository;
-import com.munjigoorm.backend.main.repository.CityStationRepository;
 import com.munjigoorm.backend.main.repository.ForeCastRepository;
-import com.munjigoorm.backend.map.entity.Station;
-import com.munjigoorm.backend.map.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MainService {
@@ -48,13 +44,10 @@ public class MainService {
     private AirRepository airRepository;
 
     @Autowired
-    private CityStationRepository cityStationRepository;
-
-    @Autowired
     private ForeCastRepository foreCastRepository;
 
     @Autowired
-    private StationRepository stationRepository;
+    private AddressRepository addressRepository;
 
     public String getAirInfo(String stationName, String addr) {
         JsonObject responseJson = new JsonObject();
@@ -132,70 +125,92 @@ public class MainService {
         return responseJson.toString();
     }
 
+    public String getRegionList(String keyword) {
+        JsonObject responseJson = new JsonObject();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        responseJson.addProperty("status", 200);
+        responseJson.addProperty("success", true);
+
+        List<Address> searchResult = addressRepository.findByFullAddrContaining(keyword);
+        List<AddressResponse> addressResponses = new ArrayList<>();
+
+        for(Address addr: searchResult) {
+            AddressResponse addressResponse = AddressResponse.builder()
+                    .fullAddr(addr.getFullAddr())
+                    .shortAddr(addr.getShortAddr())
+                    .xCoord(addr.getXCoord())
+                    .yCoord(addr.getYCoord())
+                    .build();
+            addressResponses.add(addressResponse);
+        }
+        responseJson.add("data", JsonParser.parseString(gson.toJson(addressResponses)));
+
+        return responseJson.toString();
+    }
+
     public static String calStateFloat(float value, String type) {
-        String status = "";
-        if(value < 0) status = "통신오류";
+        if(value < 0) return "통신오류";
 
         switch (type) {
             case "o3":
-                if(value <= 0.03) status = "좋음";
-                else if(value <= 0.09) status = "보통";
-                else if(value <= 0.15) status = "나쁨";
-                else status = "최악";
+                if(value <= 0.03) return "좋음";
+                else if(value <= 0.09) return "보통";
+                else if(value <= 0.15) return "나쁨";
+                else return "최악";
             case "co":
-                if(value <= 2.0) status = "좋음";
-                else if(value <= 9.0) status = "보통";
-                else if(value <= 15.0) status = "나쁨";
-                else status = "최악";
+                if(value <= 2.0) return "좋음";
+                else if(value <= 9.0) return "보통";
+                else if(value <= 15.0) return "나쁨";
+                else return "최악";
             case "no2":
-                if(value <= 0.03) status = "좋음";
-                else if(value <= 0.06) status = "보통";
-                else if(value <= 0.2) status = "나쁨";
-                else status = "최악";
+                if(value <= 0.03) return "좋음";
+                else if(value <= 0.06) return "보통";
+                else if(value <= 0.2) return "나쁨";
+                else return "최악";
             case "so2":
-                if(value <= 0.02) status = "좋음";
-                else if(value <= 0.05) status = "보통";
-                else if(value <= 0.15) status = "나쁨";
-                else status = "최악";
+                if(value <= 0.02) return "좋음";
+                else if(value <= 0.05) return "보통";
+                else if(value <= 0.15) return "나쁨";
+                else return "최악";
             default:
                 break;
         }
-        return status;
+        return null;
     }
 
     public static String calStateInteger(int value, String type) {
-        String status = "";
-        if(value < 0) status = "통신오류";
+        if(value < 0) return "통신오류";
 
         switch (type) {
             case "khai":
-                if(value <= 50) status = "좋음";
-                else if(value <= 100) status = "보통";
-                else if(value <= 250) status = "나쁨";
-                else status = "최악";
+                if(value <= 50) return "좋음";
+                else if(value <= 100) return "보통";
+                else if(value <= 250) return "나쁨";
+                else return "최악";
             case "pm10K":
-                if(value <= 30) status = "좋음";
-                else if(value <= 80) status = "보통";
-                else if(value <= 150) status = "나쁨";
-                else status = "최악";
+                if(value <= 30) return "좋음";
+                else if(value <= 80) return "보통";
+                else if(value <= 150) return "나쁨";
+                else return "최악";
             case "pm10W":
-                if(value <= 30) status = "좋음";
-                else if(value <= 50) status = "보통";
-                else if(value <= 100) status = "나쁨";
-                else status = "최악";
+                if(value <= 30) return "좋음";
+                else if(value <= 50) return "보통";
+                else if(value <= 100) return "나쁨";
+                else return "최악";
             case "pm25K":
-                if(value <= 15) status = "좋음";
-                else if(value <= 35) status = "보통";
-                else if(value <= 75) status = "나쁨";
-                else status = "최악";
+                if(value <= 15) return "좋음";
+                else if(value <= 35) return "보통";
+                else if(value <= 75) return "나쁨";
+                else return "최악";
             case "pm25W":
-                if(value <= 15) status = "좋음";
-                else if(value <= 25) status = "보통";
-                else if(value <= 50) status = "나쁨";
-                else status = "최악";
+                if(value <= 15) return "좋음";
+                else if(value <= 25) return "보통";
+                else if(value <= 50) return "나쁨";
+                else return "최악";
             default:
                 break;
         }
-        return status;
+        return null;
     }
 }

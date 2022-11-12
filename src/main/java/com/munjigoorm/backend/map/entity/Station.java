@@ -21,9 +21,9 @@ public class Station {
     @Column(name = "addr")
     private String addr;
 
-    @Column(name = "dm_x")
-    private Float dmX;
+    @Column(name = "x_coord")
+    private Double dmX;
 
-    @Column(name = "dm_y")
-    private Float dmY;
+    @Column(name = "y_coord")
+    private Double dmY;
 }

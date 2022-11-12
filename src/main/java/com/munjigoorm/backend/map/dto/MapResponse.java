@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class MapResponse {
     private String stationName;
-    private Float dmX;
-    private Float dmY;
+    private Double dmX;
+    private Double dmY;
     private Integer khaiValue;
     private String khaiState;
     private Integer pm10Value;
@@ -26,7 +26,7 @@ public class MapResponse {
     private String so2State;
 
     @Builder
-    public MapResponse(String stationName, Float dmX, Float dmY, Integer khaiValue, String khaiState, Integer pm10Value, String pm10State, Integer pm25Value, String pm25State, Float o3Value, String o3State, Float coValue, String coState, Float no2Value, String no2State, Float so2Value, String so2State) {
+    public MapResponse(String stationName, Double dmX, Double dmY, Integer khaiValue, String khaiState, Integer pm10Value, String pm10State, Integer pm25Value, String pm25State, Float o3Value, String o3State, Float coValue, String coState, Float no2Value, String no2State, Float so2Value, String so2State) {
         this.stationName = stationName;
         this.dmX = dmX;
         this.dmY = dmY;

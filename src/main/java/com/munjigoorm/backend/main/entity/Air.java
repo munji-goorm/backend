@@ -20,7 +20,7 @@ public class Air {
     @Column(name = "station_name")
     private String stationName;
 
-    @Column(name = "date_time")
+    @Column(name = "data_time")
     private String dateTime;
 
     @Column(name = "sido_name")
