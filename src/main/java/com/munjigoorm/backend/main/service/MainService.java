@@ -135,7 +135,9 @@ public class MainService {
         List<Address> searchResult = addressRepository.findByFullAddrContaining(keyword);
         List<AddressResponse> addressResponses = new ArrayList<>();
 
+        int count = 0;
         for(Address addr: searchResult) {
+            if(count == 30) break;
             AddressResponse addressResponse = AddressResponse.builder()
                     .fullAddr(addr.getFullAddr())
                     .shortAddr(addr.getShortAddr())
@@ -143,6 +145,7 @@ public class MainService {
                     .yCoord(addr.getYCoord())
                     .build();
             addressResponses.add(addressResponse);
+            count++;
         }
         responseJson.add("data", JsonParser.parseString(gson.toJson(addressResponses)));
 
@@ -150,7 +153,7 @@ public class MainService {
     }
 
     public static String calStateFloat(float value, String type) {
-        if(value < 0) return "통신오류";
+        if(value < 0) return "점검중";
 
         switch (type) {
             case "o3":
@@ -180,7 +183,7 @@ public class MainService {
     }
 
     public static String calStateInteger(int value, String type) {
-        if(value < 0) return "통신오류";
+        if(value < 0) return "점검중";
 
         switch (type) {
             case "khai":
