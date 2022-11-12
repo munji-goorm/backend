@@ -8,16 +8,41 @@ import com.munjigoorm.backend.main.entity.ForeCast;
 import com.munjigoorm.backend.main.repository.AirRepository;
 import com.munjigoorm.backend.main.repository.CityStationRepository;
 import com.munjigoorm.backend.main.repository.ForeCastRepository;
+import com.munjigoorm.backend.map.entity.Station;
+import com.munjigoorm.backend.map.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MainService {
+
+    public static final HashMap<String, String> cityStation;
+    static{
+        cityStation = new HashMap<>();
+        cityStation.put("인천", "남동");
+        cityStation.put("대구", "남산1동");
+        cityStation.put("울산", "대송동");
+        cityStation.put("대전", "둔산동");
+        cityStation.put("세종", "보람동");
+        cityStation.put("광주", "서석동");
+        cityStation.put("경북", "영양군");
+        cityStation.put("경기", "영통동");
+        cityStation.put("충남", "예산군");
+        cityStation.put("충북", "용담동");
+        cityStation.put("전남", "용당동");
+        cityStation.put("제주", "이도동");
+        cityStation.put("서울", "중구");
+        cityStation.put("강원", "중앙로");
+        cityStation.put("부산", "초량동");
+        cityStation.put("전북", "팔봉동");
+        cityStation.put("경남", "회원동");
+    }
 
     @Autowired
     private AirRepository airRepository;
@@ -28,9 +53,15 @@ public class MainService {
     @Autowired
     private ForeCastRepository foreCastRepository;
 
-    public String getAirInfo(String stationName, String city) {
+    @Autowired
+    private StationRepository stationRepository;
+
+    public String getAirInfo(String stationName, String addr) {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        // 측정소 주소로 city 알아내기
+        String city = addr.substring(0,2);
 
         // 해당하는 stationName이 DB에 저장되어 있는지 확인
         Optional<Air> air = airRepository.findById(stationName);
@@ -70,17 +101,19 @@ public class MainService {
 
             for(int i=0; i<6; i++) {
                 ForeCast fc = foreCastRepository.findByCityAndDateTime(city, sdf.format(date.getTime()));
-                foreCast.addProperty(fc.getDateTime(), fc.getStatus());
+                if(fc != null)
+                    foreCast.addProperty(fc.getDateTime(), fc.getStatus());
+                else
+                    foreCast.addProperty(sdf.format(date.getTime()), "해당 날짜의 데이터가 존재하지 않습니다.");
                 date.add(Calendar.DATE, 1);
             }
             data.add("forecast", foreCast);
 
+
             // 전국 통합대기질 정보 조회
-            List<CityStation> cityStations = cityStationRepository.findAll();
             JsonObject nationwide = new JsonObject();
-            for(CityStation cityStation: cityStations) {
-                String cityName = cityStation.getCityName();
-                String cityStationName = cityStation.getStationName();
+            for(String cityName : cityStation.keySet()) {
+                String cityStationName = cityStation.get(cityName);
                 Optional<Air> cityAir = airRepository.findById(cityStationName);
                 if(cityAir.isPresent()) {
                     Air cityAirResponse = cityAir.get();
