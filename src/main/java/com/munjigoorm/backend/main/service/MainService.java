@@ -68,6 +68,7 @@ public class MainService {
 
             // 특정 측정소의 대기 정보 조회
             StationResponse stationResponse = StationResponse.builder()
+                    .dateTime(airResponse.getDateTime())
                     .khaiValue(airResponse.getKhaiValue())
                     .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
                     .pm10Value(airResponse.getPm10Value())

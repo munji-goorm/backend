@@ -47,6 +47,7 @@ public class MapService {
                 Air airResponse = air.get();
                 MapResponse mapResponse = MapResponse.builder()
                         .stationName(station.getStationName())
+                        .dateTime(airResponse.getDateTime())
                         .dmX(station.getDmX())
                         .dmY(station.getDmY())
                         .khaiValue(airResponse.getKhaiValue())
