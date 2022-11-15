@@ -89,16 +89,17 @@ public class MainService {
             data.add("stationInfo", JsonParser.parseString(gson.toJson(stationResponse)));
 
             // 예보 정보 조회
-            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
+            SimpleDateFormat out = new SimpleDateFormat("MM.dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar date = Calendar.getInstance();
             JsonObject foreCast = new JsonObject();
 
             for(int i=0; i<6; i++) {
                 ForeCast fc = foreCastRepository.findByCityAndDateTime(city, sdf.format(date.getTime()));
                 if(fc != null)
-                    foreCast.addProperty(sdf.format(date.getTime()), fc.getStatus());
+                    foreCast.addProperty(out.format(date.getTime()), fc.getStatus());
                 else
-                    foreCast.addProperty(sdf.format(date.getTime()), "모름");
+                    foreCast.addProperty(out.format(date.getTime()), "모름");
                 date.add(Calendar.DATE, 1);
             }
             data.add("forecast", foreCast);
