@@ -106,15 +106,18 @@ public class MainService {
 
             // 전국 통합대기질 정보 조회
             JsonObject nationwide = new JsonObject();
+            JsonObject nationwideValue = new JsonObject();
             for(String cityName : cityStation.keySet()) {
                 String cityStationName = cityStation.get(cityName);
                 Optional<Air> cityAir = airRepository.findById(cityStationName);
                 if(cityAir.isPresent()) {
                     Air cityAirResponse = cityAir.get();
                     nationwide.addProperty(cityName, calStateInteger(cityAirResponse.getKhaiValue(), "khai"));
+                    nationwideValue.addProperty(cityName, cityAirResponse.getKhaiValue());
                 }
             }
             data.add("nationwide", nationwide);
+            data.add("nationwideValue", nationwideValue);
 
             responseJson.add("data", data);
         } else{
