@@ -68,7 +68,7 @@ public class MainService {
 
             // 특정 측정소의 대기 정보 조회
             StationResponse stationResponse = StationResponse.builder()
-                    .dateTime(airResponse.getDateTime())
+                    .dateTime(airResponse.getDateTime().substring(5,7) + "." + airResponse.getDateTime().substring(8,10))
                     .khaiValue(airResponse.getKhaiValue())
                     .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
                     .pm10Value(airResponse.getPm10Value())
@@ -98,7 +98,7 @@ public class MainService {
                 if(fc != null)
                     foreCast.addProperty(fc.getDateTime(), fc.getStatus());
                 else
-                    foreCast.addProperty(sdf.format(date.getTime()), "해당 날짜의 데이터가 존재하지 않습니다.");
+                    foreCast.addProperty(sdf.format(date.getTime()), "모름");
                 date.add(Calendar.DATE, 1);
             }
             data.add("forecast", foreCast);
