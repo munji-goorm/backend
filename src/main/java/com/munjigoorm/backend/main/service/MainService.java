@@ -68,7 +68,7 @@ public class MainService {
 
             // 특정 측정소의 대기 정보 조회
             StationResponse stationResponse = StationResponse.builder()
-                    .dateTime(airResponse.getDateTime().substring(5,7) + "." + airResponse.getDateTime().substring(8,10))
+                    .dateTime(airResponse.getDateTime())
                     .khaiValue(airResponse.getKhaiValue())
                     .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
                     .pm10Value(airResponse.getPm10Value())
@@ -89,14 +89,14 @@ public class MainService {
             data.add("stationInfo", JsonParser.parseString(gson.toJson(stationResponse)));
 
             // 예보 정보 조회
-            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
             Calendar date = Calendar.getInstance();
             JsonObject foreCast = new JsonObject();
 
             for(int i=0; i<6; i++) {
                 ForeCast fc = foreCastRepository.findByCityAndDateTime(city, sdf.format(date.getTime()));
                 if(fc != null)
-                    foreCast.addProperty(fc.getDateTime(), fc.getStatus());
+                    foreCast.addProperty(sdf.format(date.getTime()), fc.getStatus());
                 else
                     foreCast.addProperty(sdf.format(date.getTime()), "모름");
                 date.add(Calendar.DATE, 1);
