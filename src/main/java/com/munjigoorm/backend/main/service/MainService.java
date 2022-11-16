@@ -18,27 +18,48 @@ import java.util.*;
 @Service
 public class MainService {
 
-    public static final HashMap<String, String> cityStation;
-    static{
-        cityStation = new HashMap<>();
-        cityStation.put("인천", "남동");
-        cityStation.put("대구", "남산1동");
-        cityStation.put("울산", "대송동");
-        cityStation.put("대전", "둔산동");
-        cityStation.put("세종", "보람동");
-        cityStation.put("광주", "서석동");
-        cityStation.put("경북", "영양군");
-        cityStation.put("경기", "영통동");
-        cityStation.put("충남", "예산군");
-        cityStation.put("충북", "용담동");
-        cityStation.put("전남", "용당동");
-        cityStation.put("제주", "이도동");
-        cityStation.put("서울", "중구");
-        cityStation.put("강원", "중앙로");
-        cityStation.put("부산", "초량동");
-        cityStation.put("전북", "팔봉동");
-        cityStation.put("경남", "회원동");
+    public static final List<String> cityList;
+    static {
+        cityList = new ArrayList<>();
+        cityList.add("울산");
+        cityList.add("충북");
+        cityList.add("서울");
+        cityList.add("전북");
+        cityList.add("경기");
+        cityList.add("충남");
+        cityList.add("부산");
+        cityList.add("강원");
+        cityList.add("경북");
+        cityList.add("대전");
+        cityList.add("세종");
+        cityList.add("제주");
+        cityList.add("대구");
+        cityList.add("인천");
+        cityList.add("전남");
+        cityList.add("광주");
+        cityList.add("경남");
     }
+//    public static final HashMap<String, String> cityStation;
+//    static{
+//        cityStation = new HashMap<>();
+//        cityStation.put("인천", "남동");
+//        cityStation.put("대구", "남산1동");
+//        cityStation.put("울산", "대송동");
+//        cityStation.put("대전", "둔산동");
+//        cityStation.put("세종", "보람동");
+//        cityStation.put("광주", "서석동");
+//        cityStation.put("경북", "영양군");
+//        cityStation.put("경기", "영통동");
+//        cityStation.put("충남", "예산군");
+//        cityStation.put("충북", "용담동");
+//        cityStation.put("전남", "용당동");
+//        cityStation.put("제주", "이도동");
+//        cityStation.put("서울", "중구");
+//        cityStation.put("강원", "중앙로");
+//        cityStation.put("부산", "초량동");
+//        cityStation.put("전북", "팔봉동");
+//        cityStation.put("경남", "회원동");
+//    }
 
     @Autowired
     private AirRepository airRepository;
@@ -108,15 +129,21 @@ public class MainService {
             // 전국 통합대기질 정보 조회
             JsonObject nationwide = new JsonObject();
             JsonObject nationwideValue = new JsonObject();
-            for(String cityName : cityStation.keySet()) {
-                String cityStationName = cityStation.get(cityName);
-                Optional<Air> cityAir = airRepository.findById(cityStationName);
-                if(cityAir.isPresent()) {
-                    Air cityAirResponse = cityAir.get();
-                    nationwide.addProperty(cityName, calStateInteger(cityAirResponse.getKhaiValue(), "khai"));
-                    nationwideValue.addProperty(cityName, cityAirResponse.getKhaiValue());
+            for(String cityName: cityList) {
+                List<Air> cityAirs = airRepository.findBySidoName(cityName);
+                int normalCnt = 0;
+                int totalKhaiValue = 0;
+                for(Air cityAir: cityAirs) {
+                    if(cityAir.getKhaiValue() != -1) {
+                        normalCnt++;
+                        totalKhaiValue += cityAir.getKhaiValue();
+                    }
                 }
+                int avgKhaiValue = totalKhaiValue / normalCnt;
+                nationwide.addProperty(cityName, calStateInteger(avgKhaiValue, "khai"));
+                nationwideValue.addProperty(cityName, avgKhaiValue);
             }
+
             data.add("nationwide", nationwide);
             data.add("nationwideValue", nationwideValue);
 
