@@ -39,6 +39,7 @@ jobs:
         sed "39 c\        image: oeckikekk/munjigoorm-back:${{ github.sha }}" back-deploy.yaml
         git config --global user.email "no02031@naver.com"
         git config --global user.name "soyeonnn"
-        git add .
-        git commit -m "edit back image"
-        git push -f --set-upstream origin main
+        git status
+        # git add .
+        # git commit -m "edit back image"
+        # git push -f --set-upstream origin main
