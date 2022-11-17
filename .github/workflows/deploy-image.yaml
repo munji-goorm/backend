@@ -24,4 +24,4 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: oeckikekk/munjigoorm-back:${GITHUB_SHA::7}
+        tags: oeckikekk/munjigoorm-back:latest
