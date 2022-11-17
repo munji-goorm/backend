@@ -34,4 +34,6 @@ jobs:
         path: manifest
     
     - name: cd and ls
-      run: ls manifest/
+      run: |
+      cd manifest
+      ls
