@@ -34,4 +34,4 @@ jobs:
         path: manifest
     
     - name: pwd and ls
-        run: ls
+      run: ls
