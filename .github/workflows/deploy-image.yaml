@@ -27,7 +27,7 @@ jobs:
         tags: oeckikekk/munjigoorm-back:${{ github.sha }}
 
     - name: move repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@master
       with:
         repository: munji-goorm/manifest
         token: ${{ secrets.ACTION_TOKEN }}
