@@ -35,5 +35,5 @@ jobs:
     
     - name: cd and ls
       run: |
-      cd manifest
-      ls
+        cd manifest,
+        ls
