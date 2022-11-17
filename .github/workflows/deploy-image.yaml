@@ -38,5 +38,5 @@ jobs:
         cd manifest
         ls
         cat back-deploy.yaml
-        sed -i "39s/.*/        image: oeckikekk/munjigoorm-back:${{ github.sha }}" back-deploy.yaml
+        sed "39 c\        image: oeckikekk/munjigoorm-back:${{ github.sha }}" back-deploy.yaml
         cat back-deploy.yaml
