@@ -33,5 +33,5 @@ jobs:
         token: ${{ secrets.ACTION_TOKEN }}
         path: manifest
     
-    - name: pwd and ls
-      run: cd manifest || ls
+    - name: cd and ls
+      run: ls manifest/
