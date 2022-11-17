@@ -35,7 +35,4 @@ jobs:
     
     - name: cd and ls
       run: |
-        pwd
-        ls
-        cd manifest,
         ls
