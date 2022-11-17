@@ -26,17 +26,17 @@ jobs:
         push: true
         tags: oeckikekk/munjigoorm-back:${{ github.sha }}
 
-    - name: move repository
+    - name: Move Repository
       uses: actions/checkout@master
       with:
         repository: munji-goorm/manifest
         token: ${{ secrets.ACTION_TOKEN }}
         path: manifest
     
-    - name: cd and ls
+    - name: Edit Manifest Image
       run: |
         cd manifest
-        ls
-        cat back-deploy.yaml
         sed "39 c\        image: oeckikekk/munjigoorm-back:${{ github.sha }}" back-deploy.yaml
-        cat back-deploy.yaml
+        git add .
+        git commit -m "edit back image"
+        git push -f --set-upstream origin main
