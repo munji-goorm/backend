@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CCTVRepository extends JpaRepository<CCTV, String> {
-    List<CCTV> findByXCoordBetweenAndYCoordBetween(Double xCoord, Double xCoord2, Double yCoord, Double yCoord2);
+    //List<CCTV> findByXCoordBetweenAndYCoordBetween(Double xCoord, Double xCoord2, Double yCoord, Double yCoord2);
 }

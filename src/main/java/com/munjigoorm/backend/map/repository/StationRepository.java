@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StationRepository extends JpaRepository<Station, String> {
 
-    List<Station> findByDmXBetweenAndDmYBetween(Double dmX, Double dmX2, Double dmY, Double dmY2);
+    //List<Station> findByDmXBetweenAndDmYBetween(Double dmX, Double dmX2, Double dmY, Double dmY2);
 }

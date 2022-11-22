@@ -17,7 +17,7 @@ public class CCTVService {
     @Autowired
     CCTVRepository cctvRepository;
 
-    public String getCctvInfo(double xOne, double xTwo, double yOne, double yTwo) {
+    public String getCctvInfo() {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -25,7 +25,8 @@ public class CCTVService {
         responseJson.addProperty("success", true);
 
         // 요청 받은 범위 내에 있는 측정소 정보 가져오기
-        List<CCTV> cctvs = cctvRepository.findByXCoordBetweenAndYCoordBetween(xOne, xTwo, yOne, yTwo);
+        //List<CCTV> cctvs = cctvRepository.findByXCoordBetweenAndYCoordBetween(xOne, xTwo, yOne, yTwo);
+        List<CCTV> cctvs = cctvRepository.findAll();
         responseJson.add("data", JsonParser.parseString(gson.toJson(cctvs)));
 
         return responseJson.toString();
