@@ -22,8 +22,8 @@ public class CCTV {
     private String cctvName;
 
     @Column(name = "x_coord")
-    private Double XCord;
+    private Double XCoord;
 
     @Column(name = "y_coord")
-    private Double YCord;
+    private Double YCoord;
 }

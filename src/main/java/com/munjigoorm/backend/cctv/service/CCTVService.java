@@ -25,7 +25,7 @@ public class CCTVService {
         responseJson.addProperty("success", true);
 
         // 요청 받은 범위 내에 있는 측정소 정보 가져오기
-        List<CCTV> cctvs = cctvRepository.findByXCordBetweenAndYCordBetween(xOne, xTwo, yOne, yTwo);
+        List<CCTV> cctvs = cctvRepository.findByXCoordBetweenAndYCoordBetween(xOne, xTwo, yOne, yTwo);
         responseJson.add("data", JsonParser.parseString(gson.toJson(cctvs)));
 
         return responseJson.toString();
