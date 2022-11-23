@@ -11,23 +11,25 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/50646042/203454103-24e725e9-7840-4bbd-b9ae-48a60e7878b6.png" width="600" height="1100"/> 
 <img src="https://user-images.githubusercontent.com/50646042/203454359-8b379062-ad31-4150-beda-fd98e2d5b358.png" width="500" height="800"/>
 <img src="https://user-images.githubusercontent.com/50646042/203454807-1f31aa93-8a53-43f5-a94f-b66af2a21c42.png" width="500" height="800"/>
-
+  
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> AWS 설계도
 ![image](https://user-images.githubusercontent.com/50646042/203455365-6d5cb440-dd54-4d7d-9355-7a4b320208bb.png)
-
+  
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> 주요 기술 및 라이브러리
-### Frontend
+#### Frontend
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=white"/> <img src="https://img.shields.io/badge/react-61DAFB?style=flat-square&logo=react&logoColor=white"/> 
 
-### Backend
+#### Backend
 <img src="https://img.shields.io/badge/java-007396?style=flat-square&logo=Java&logoColor=white"/> <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/> 
 
-### Database
+#### Database
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/python-3776AB?style=flat-square&logo=python&logoColor=white"/>
 
-### Ops
-<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white"/>
-
+#### Ops
+<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white"/> <img src="https://img.shields.io/badge/Docker-2CA5E0?style=flat-square&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/kubernetes-326ce5.svg?style=flat-square&logo=kubernetes&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=github-actions&logoColor=white"/>
+  
+  
+ 
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> 팀원 소개
 
 | | | |<img src="https://user-images.githubusercontent.com/54930365/175469606-f2805692-eeee-4212-a6d4-c599085be9b0.jpeg" width="130" height="130">  | 
