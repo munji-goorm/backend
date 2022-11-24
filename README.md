@@ -1,5 +1,5 @@
 <img src="https://user-images.githubusercontent.com/50646042/203447132-8e2d5aa3-17c5-4253-8cdc-1aa492ea2426.png"></p>
-### Kakao Cloud School 1기에서 먼지구름 프로젝트에 사용된 백엔드 코드입니다.
+### Kakao Cloud School 1기에서 먼지구름 프로젝트에 사용된 백엔드 코드입니다~
 ---
 
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> 프로젝트 소개
