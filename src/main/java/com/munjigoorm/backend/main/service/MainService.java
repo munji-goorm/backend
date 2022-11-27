@@ -28,7 +28,7 @@ public class MainService {
     private final String KAKAO_API_KEY = null;
 
     @Value("${open_api_key}")
-    private final String NEAR_API_KEY = null;
+    private final String OPEN_API_KEY = null;
 
     public static final List<String> cityList;
     static {
@@ -270,11 +270,11 @@ public class MainService {
 
         // TM좌표로 근접 측정소 찾아내기
         String nearApiUrl = "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList?" +
-                "serviceKey=" + NEAR_API_KEY + "&returnType=json" +
+                "serviceKey=" + OPEN_API_KEY + "&returnType=json" +
                 "&tmX=" + tmX + "&tmY=" + tmY;
         String nearJsonString = null;
 
-        nearJsonString = execApi(nearApiUrl, NEAR_API_KEY);
+        nearJsonString = execApi(nearApiUrl, OPEN_API_KEY);
 
         JsonObject nearJsonObject = (JsonObject)jsonParser.parse(nearJsonString);
         JsonObject response = (JsonObject)nearJsonObject.get("response");
