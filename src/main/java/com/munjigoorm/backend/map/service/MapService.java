@@ -10,6 +10,7 @@ import com.munjigoorm.backend.map.dto.MapResponse;
 import com.munjigoorm.backend.map.entity.Station;
 import com.munjigoorm.backend.map.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MapService {
     @Autowired
     private StationRepository stationRepository;
 
+    @Cacheable("map")
     public String getMapInfo() {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.munjigoorm.backend.cctv.entity.CCTV;
 import com.munjigoorm.backend.cctv.repository.CCTVRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CCTVService {
     @Autowired
     CCTVRepository cctvRepository;
 
+    @Cacheable("cctv")
     public String getCctvInfo() {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

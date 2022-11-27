@@ -15,10 +15,8 @@ public class MainController {
     private MainService mainService;
 
     @GetMapping
-    public String airInfo(@RequestParam String stationName, @RequestParam String addr) throws UnsupportedEncodingException {
-        String station = URLDecoder.decode(stationName, "UTF-8");
-        String address = URLDecoder.decode(addr, "UTF-8");
-        return mainService.getAirInfo(station, address);
+    public String airInfo(@RequestParam String latitude, @RequestParam String longitude) throws UnsupportedEncodingException {
+        return mainService.getAirInfo(latitude, longitude);
     }
 
     @GetMapping(value = "/search")

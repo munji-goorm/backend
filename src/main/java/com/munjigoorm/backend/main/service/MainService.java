@@ -10,13 +10,25 @@ import com.munjigoorm.backend.main.repository.AddressRepository;
 import com.munjigoorm.backend.main.repository.AirRepository;
 import com.munjigoorm.backend.main.repository.ForeCastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 public class MainService {
+    @Value("${kakao_api_key}")
+    private final String KAKAO_API_KEY = null;
+
+    @Value("${open_api_key}")
+    private final String NEAR_API_KEY = null;
 
     public static final List<String> cityList;
     static {
@@ -39,27 +51,6 @@ public class MainService {
         cityList.add("광주");
         cityList.add("경남");
     }
-//    public static final HashMap<String, String> cityStation;
-//    static{
-//        cityStation = new HashMap<>();
-//        cityStation.put("인천", "남동");
-//        cityStation.put("대구", "남산1동");
-//        cityStation.put("울산", "대송동");
-//        cityStation.put("대전", "둔산동");
-//        cityStation.put("세종", "보람동");
-//        cityStation.put("광주", "서석동");
-//        cityStation.put("경북", "영양군");
-//        cityStation.put("경기", "영통동");
-//        cityStation.put("충남", "예산군");
-//        cityStation.put("충북", "용담동");
-//        cityStation.put("전남", "용당동");
-//        cityStation.put("제주", "이도동");
-//        cityStation.put("서울", "중구");
-//        cityStation.put("강원", "중앙로");
-//        cityStation.put("부산", "초량동");
-//        cityStation.put("전북", "팔봉동");
-//        cityStation.put("경남", "회원동");
-//    }
 
     @Autowired
     private AirRepository airRepository;
@@ -70,7 +61,13 @@ public class MainService {
     @Autowired
     private AddressRepository addressRepository;
 
-    public String getAirInfo(String stationName, String addr) {
+    @Cacheable("main")
+    public String getAirInfo(String latitude, String longitude) {
+        // 위도와 경도를 통해 주소와 측정소 이름을 알아낸다.
+        List<String> apiResult = getAddrAndStationNameAndShorAddr(latitude, longitude);
+        String addr = apiResult.get(0);
+        String stationName = apiResult.get(1);
+
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -157,6 +154,7 @@ public class MainService {
         return responseJson.toString();
     }
 
+    @Cacheable("search")
     public String getRegionList(String keyword) {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -245,6 +243,90 @@ public class MainService {
                 else return "최악";
             default:
                 break;
+        }
+        return null;
+    }
+
+    public List<String> getAddrAndStationNameAndShorAddr(String latitude, String longitude) {
+        List<String> addrAndStationName = new ArrayList<>();
+
+        // 위도, 경도 TM 좌표로 변환
+        String tmApiUrl = "https://dapi.kakao.com/v2/local/geo/transcoord.json?" +
+                "x=" + longitude + "&y=" + latitude +
+                "&input_coord=WGS84&output_coord=TM";
+        String tmJsonString = null;
+        double tmX = 0, tmY = 0;
+
+        tmJsonString = execApi(tmApiUrl, KAKAO_API_KEY);
+
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject)jsonParser.parse(tmJsonString);
+        JsonArray documents = (JsonArray) jsonObject.get("documents");
+        JsonObject tm = (JsonObject) documents.get(0);
+        tmX = Double.parseDouble(tm.get("x").getAsString());
+        tmY = Double.parseDouble(tm.get("y").getAsString());
+
+        // TM좌표로 근접 측정소 찾아내기
+        String nearApiUrl = "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList?" +
+                "serviceKey=" + NEAR_API_KEY + "&returnType=json" +
+                "&tmX=" + tmX + "&tmY=" + tmY;
+        String nearJsonString = null;
+
+        nearJsonString = execApi(nearApiUrl, NEAR_API_KEY);
+
+        JsonObject nearJsonObject = (JsonObject)jsonParser.parse(nearJsonString);
+        JsonObject response = (JsonObject)nearJsonObject.get("response");
+        JsonObject body = (JsonObject)response.get("body");
+        JsonArray items = (JsonArray)body.get("items");
+        JsonObject nearStationInfo = (JsonObject) items.get(0);
+
+        String addr = nearStationInfo.get("addr").getAsString();
+        String stationName = nearStationInfo.get("stationName").getAsString();
+
+        // 위도 경도로 주소 알아내기
+        String addrApiUrl = "https://dapi.kakao.com/v2/local/geo/coord2address.json?" +
+                "x=" + longitude + "&y=" + latitude +
+                "&input_coord=WGS84";
+        String addrJsonString = null;
+
+        addrJsonString = execApi(addrApiUrl, KAKAO_API_KEY);
+
+        JsonObject addrJsonObject = (JsonObject)jsonParser.parse(addrJsonString);
+        JsonArray addrDocuments = (JsonArray)addrJsonObject.get("documents");
+        JsonObject twoAddress = (JsonObject) addrDocuments.get(0);
+        JsonObject address = (JsonObject) twoAddress.get("address");
+
+        String shortAddr = address.get("region_2depth_name").toString() + " " + address.get("region_3depth_name").toString();
+        shortAddr = shortAddr.replaceAll("\"", "");
+
+        addrAndStationName.add(addr);
+        addrAndStationName.add(stationName);
+        addrAndStationName.add(shortAddr);
+
+        return addrAndStationName;
+    }
+
+    public String execApi(String apiUrl, String apiKey) {
+        try{
+            URL url = new URL(apiUrl);
+            URLConnection conn = url.openConnection();
+            conn.setRequestProperty("Authorization", "KakaoAK " + apiKey);
+
+            BufferedReader rd = null;
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuffer docJson = new StringBuffer();
+
+            String line;
+
+            while ((line=rd.readLine()) != null) {
+                docJson.append(line);
+            }
+
+            rd.close();
+            return docJson.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
