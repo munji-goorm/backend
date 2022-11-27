@@ -67,6 +67,7 @@ public class MainService {
         List<String> apiResult = getAddrAndStationNameAndShorAddr(latitude, longitude);
         String addr = apiResult.get(0);
         String stationName = apiResult.get(1);
+        String shortAddr = apiResult.get(2);
 
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -86,6 +87,7 @@ public class MainService {
 
             // 특정 측정소의 대기 정보 조회
             StationResponse stationResponse = StationResponse.builder()
+                    .shorAddr(shortAddr)
                     .dateTime(airResponse.getDateTime())
                     .khaiValue(airResponse.getKhaiValue())
                     .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
