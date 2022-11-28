@@ -4,6 +4,7 @@ import com.munjigoorm.backend.cctv.service.CCTVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,7 +15,7 @@ public class CCTVController {
     private CCTVService cctvService;
 
     @GetMapping
-    public String mapInfo() {
-        return cctvService.getCctvInfo();
+    public String mapInfo(@RequestParam double xOne, @RequestParam double xTwo, @RequestParam double yOne, @RequestParam double yTwo) {
+        return cctvService.getCctvInfo(xOne, xTwo, yOne, yTwo);
     }
 }

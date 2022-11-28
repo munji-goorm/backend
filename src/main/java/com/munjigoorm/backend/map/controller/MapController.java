@@ -15,7 +15,7 @@ public class MapController {
     private MapService mapService;
 
     @GetMapping
-    public String mapInfo() {
-        return mapService.getMapInfo();
+    public String mapInfo(@RequestParam double xOne, @RequestParam double xTwo, @RequestParam double yOne, @RequestParam double yTwo) {
+        return mapService.getMapInfo(xOne, xTwo, yOne, yTwo);
     }
 }

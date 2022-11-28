@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 public class StationResponse{
     private String stationName;
-    private String shorAddr;
+    private String shortAddr;
     private String dateTime;
     private Integer khaiValue;
     private String khaiState;
@@ -27,9 +27,9 @@ public class StationResponse{
     private String so2State;
 
     @Builder
-    public StationResponse(String stationName, String shorAddr, String dateTime, Integer khaiValue, String khaiState, Integer pm10Value, String pm10StateK, String pm10StateW, Integer pm25Value, String pm25StateK, String pm25StateW, Float o3Value, String o3State, Float coValue, String coState, Float no2Value, String no2State, Float so2Value, String so2State) {
+    public StationResponse(String stationName, String shortAddr, String dateTime, Integer khaiValue, String khaiState, Integer pm10Value, String pm10StateK, String pm10StateW, Integer pm25Value, String pm25StateK, String pm25StateW, Float o3Value, String o3State, Float coValue, String coState, Float no2Value, String no2State, Float so2Value, String so2State) {
         this.stationName = stationName;
-        this.shorAddr = shorAddr;
+        this.shortAddr = shortAddr;
         this.dateTime = dateTime;
         this.khaiValue = khaiValue;
         this.khaiState = khaiState;

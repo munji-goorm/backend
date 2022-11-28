@@ -30,7 +30,7 @@ public class MapService {
     private StationRepository stationRepository;
 
     @Cacheable("map")
-    public String getMapInfo() {
+    public String getMapInfo(double xOne, double xTwo, double yOne, double yTwo) {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -38,8 +38,8 @@ public class MapService {
         responseJson.addProperty("success", true);
 
         // 요청한 위도, 경도 안에 있는 측정소의 x좌표, y좌표 모두 가져오기
-//        List<Station> stations = stationRepository.findByDmXBetweenAndDmYBetween(xOne, xTwo, yOne, yTwo);
-        List<Station> stations = stationRepository.findAll();
+        List<Station> stations = stationRepository.findByDmXBetweenAndDmYBetween(xOne, xTwo, yOne, yTwo);
+//        List<Station> stations = stationRepository.findAll();
         List<MapResponse> mapResponses = new ArrayList<>();
 
         for(Station station : stations) {
