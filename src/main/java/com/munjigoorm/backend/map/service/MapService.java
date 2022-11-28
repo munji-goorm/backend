@@ -30,23 +30,45 @@ public class MapService {
     private StationRepository stationRepository;
 
     @Cacheable("map")
-    public String getMapInfo(double xOne, double xTwo, double yOne, double yTwo) {
+    public String getMapInfo(int mapLevel, double xOne, double xTwo, double yOne, double yTwo) {
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         responseJson.addProperty("status", 200);
         responseJson.addProperty("success", true);
 
-        // 요청한 위도, 경도 안에 있는 측정소의 x좌표, y좌표 모두 가져오기
-        List<Station> stations = stationRepository.findByDmXBetweenAndDmYBetween(xOne, xTwo, yOne, yTwo);
-//        List<Station> stations = stationRepository.findAll();
+        List<Station> stations = null;
         List<MapResponse> mapResponses = new ArrayList<>();
 
-        for(Station station : stations) {
+        // mapLevel에 따라서 분할하는지 확인
+        if(mapLevel >= 1 && mapLevel <= 6) {
+            // 요청한 위도, 경도 안에 있는 측정소의 x좌표, y좌표 모두 가져오기
+            stations = stationRepository.findByDmXBetweenAndDmYBetween(xOne, xTwo, yOne, yTwo);
+            mapResponses = getStationInfo(stations, mapResponses, "all");
+        } else if(mapLevel >= 7 && mapLevel <= 10) {
+            // 총 9구역으로 나누고, 한 구역별로 30개씩 가져오기
+            double xDiff = (xTwo - xOne) / 3.0;
+            double yDiff = (yTwo - yOne) / 3.0;
+
+
+        } else {
+
+        }
+
+        responseJson.add("data", JsonParser.parseString(gson.toJson(mapResponses)));
+        return responseJson.toString();
+    }
+
+    public List<MapResponse> getStationInfo(List<Station> stations, List<MapResponse> mapResponses, String type) {
+        int count = 0;
+
+        for (Station station : stations) {
+            if(type.equals("limit") && count == 10) break;
+
             // stationName의 대기 오염 정보 조회
             Optional<Air> air = airRepository.findById(station.getStationName());
 
-            if(air.isPresent()) {
+            if (air.isPresent()) {
                 Air airResponse = air.get();
                 MapResponse mapResponse = MapResponse.builder()
                         .stationName(station.getStationName())
@@ -69,8 +91,8 @@ public class MapService {
                         .build();
                 mapResponses.add(mapResponse);
             }
+            count++;
         }
-        responseJson.add("data", JsonParser.parseString(gson.toJson(mapResponses)));
-        return responseJson.toString();
+        return mapResponses;
     }
 }

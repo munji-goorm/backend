@@ -15,7 +15,7 @@ public class CCTVController {
     private CCTVService cctvService;
 
     @GetMapping
-    public String mapInfo(@RequestParam double xOne, @RequestParam double xTwo, @RequestParam double yOne, @RequestParam double yTwo) {
-        return cctvService.getCctvInfo(xOne, xTwo, yOne, yTwo);
+    public String mapInfo(@RequestParam int mapLevel, @RequestParam double xOne, @RequestParam double xTwo, @RequestParam double yOne, @RequestParam double yTwo) {
+        return cctvService.getCctvInfo(mapLevel, xOne, xTwo, yOne, yTwo);
     }
 }
