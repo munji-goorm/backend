@@ -111,7 +111,7 @@ public class MapService {
             if(chungnam.isPresent()) stations.add(chungnam.get());
             Optional<Station> busan = stationRepository.findById("개금동");
             if(busan.isPresent()) stations.add(busan.get());
-            Optional<Station> gangwon = stationRepository.findById("갈말읍");
+            Optional<Station> gangwon = stationRepository.findById("평창읍");
             if(gangwon.isPresent()) stations.add(gangwon.get());
             Optional<Station> gyeongbuk = stationRepository.findById("평화남산동");
             if(gyeongbuk.isPresent()) stations.add(gyeongbuk.get());
