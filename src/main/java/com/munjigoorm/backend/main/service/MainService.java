@@ -91,21 +91,21 @@ public class MainService {
                     .shortAddr(shortAddr)
                     .dateTime(airResponse.getDateTime())
                     .khaiValue(airResponse.getKhaiValue())
-                    .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
+                    .khaiState(airResponse.getKhaiState())
                     .pm10Value(airResponse.getPm10Value())
-                    .pm10StateK(calStateInteger(airResponse.getPm10Value(), "pm10K"))
-                    .pm10StateW(calStateInteger(airResponse.getPm10Value(), "pm10W"))
+                    .pm10StateK(airResponse.getPm10StateK())
+                    .pm10StateW(airResponse.getPm10StateW())
                     .pm25Value(airResponse.getPm25Value())
-                    .pm25StateK(calStateInteger(airResponse.getPm25Value(), "pm25K"))
-                    .pm25StateW(calStateInteger(airResponse.getPm25Value(), "pm25W"))
+                    .pm25StateK(airResponse.getPm25StateK())
+                    .pm25StateW(airResponse.getPm25StateK())
                     .o3Value(airResponse.getO3Value())
-                    .o3State(calStateFloat(airResponse.getO3Value(), "o3"))
+                    .o3State(airResponse.getO3State())
                     .coValue(airResponse.getCoValue())
-                    .coState(calStateFloat(airResponse.getCoValue(), "co"))
+                    .coState(airResponse.getCoState())
                     .no2Value(airResponse.getNo2Value())
-                    .no2State(calStateFloat(airResponse.getNo2Value(), "no2"))
+                    .no2State(airResponse.getNo2State())
                     .so2Value(airResponse.getSo2Value())
-                    .so2State(calStateFloat(airResponse.getSo2Value(), "so2"))
+                    .so2State(airResponse.getSo2State())
                     .build();
             data.add("stationInfo", JsonParser.parseString(gson.toJson(stationResponse)));
 
@@ -183,36 +183,6 @@ public class MainService {
         responseJson.add("data", JsonParser.parseString(gson.toJson(addressResponses)));
 
         return responseJson.toString();
-    }
-
-    public static String calStateFloat(float value, String type) {
-        if(value < 0) return "점검중";
-
-        switch (type) {
-            case "o3":
-                if(value <= 0.03) return "좋음";
-                else if(value <= 0.09) return "보통";
-                else if(value <= 0.15) return "나쁨";
-                else return "최악";
-            case "co":
-                if(value <= 2.0) return "좋음";
-                else if(value <= 9.0) return "보통";
-                else if(value <= 15.0) return "나쁨";
-                else return "최악";
-            case "no2":
-                if(value <= 0.03) return "좋음";
-                else if(value <= 0.06) return "보통";
-                else if(value <= 0.2) return "나쁨";
-                else return "최악";
-            case "so2":
-                if(value <= 0.02) return "좋음";
-                else if(value <= 0.05) return "보통";
-                else if(value <= 0.15) return "나쁨";
-                else return "최악";
-            default:
-                break;
-        }
-        return null;
     }
 
     public static String calStateInteger(int value, String type) {

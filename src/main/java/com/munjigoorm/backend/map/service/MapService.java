@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.munjigoorm.backend.main.service.MainService.calStateFloat;
-import static com.munjigoorm.backend.main.service.MainService.calStateInteger;
-
 @Service
 public class MapService {
 
@@ -157,19 +154,19 @@ public class MapService {
                         .dmX(station.getDmX())
                         .dmY(station.getDmY())
                         .khaiValue(airResponse.getKhaiValue())
-                        .khaiState(calStateInteger(airResponse.getKhaiValue(), "khai"))
+                        .khaiState(airResponse.getKhaiState())
                         .pm10Value(airResponse.getPm10Value())
-                        .pm10State(calStateInteger(airResponse.getPm10Value(), "pm10W"))
+                        .pm10State(airResponse.getPm10StateK())
                         .pm25Value(airResponse.getPm25Value())
-                        .pm25State(calStateInteger(airResponse.getPm25Value(), "pm25W"))
+                        .pm25State(airResponse.getPm25StateK())
                         .o3Value(airResponse.getO3Value())
-                        .o3State(calStateFloat(airResponse.getO3Value(), "o3"))
+                        .o3State(airResponse.getO3State())
                         .coValue(airResponse.getCoValue())
-                        .coState(calStateFloat(airResponse.getCoValue(), "co"))
+                        .coState(airResponse.getCoState())
                         .no2Value(airResponse.getNo2Value())
-                        .no2State(calStateFloat(airResponse.getNo2Value(), "no2"))
+                        .no2State(airResponse.getNo2State())
                         .so2Value(airResponse.getSo2Value())
-                        .so2State(calStateFloat(airResponse.getSo2Value(), "so2"))
+                        .so2State(airResponse.getSo2State())
                         .build();
                 mapResponses.add(mapResponse);
             }

@@ -1,6 +1,5 @@
 package com.munjigoorm.backend.main.dto;
 
-import com.google.gson.JsonElement;
 import lombok.*;
 
 @Getter
