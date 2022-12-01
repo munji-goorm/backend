@@ -9,10 +9,15 @@ import com.munjigoorm.backend.main.repository.AirRepository;
 import com.munjigoorm.backend.map.dto.MapResponse;
 import com.munjigoorm.backend.map.entity.Station;
 import com.munjigoorm.backend.map.repository.StationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +30,14 @@ public class MapService {
 
     @Autowired
     private StationRepository stationRepository;
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Scheduled(cron = "20 * * * * *")
+    @CacheEvict(value = "map", allEntries = true)
+    public void emptyMainCache() {
+        logger.info("[CACHE_DELETE] empty map cache {}", LocalDateTime.now());
+    }
 
     @Cacheable("map")
     public String getMapInfo(int mapLevel, double xOne, double xTwo, double yOne, double yTwo) {

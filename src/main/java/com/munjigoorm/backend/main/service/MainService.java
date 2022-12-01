@@ -9,9 +9,13 @@ import com.munjigoorm.backend.main.entity.ForeCast;
 import com.munjigoorm.backend.main.repository.AddressRepository;
 import com.munjigoorm.backend.main.repository.AirRepository;
 import com.munjigoorm.backend.main.repository.ForeCastRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -20,6 +24,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -60,6 +65,14 @@ public class MainService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Scheduled(cron = "20 * * * * *")
+    @CacheEvict(value = "main", allEntries = true)
+    public void emptyMainCache() {
+        logger.info("[CACHE_DELETE] empty main cache {}", LocalDateTime.now());
+    }
 
     @Cacheable("main")
     public String getAirInfo(String latitude, String longitude) {
