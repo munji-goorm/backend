@@ -105,7 +105,7 @@ public class MapService {
             if(chungbuk.isPresent()) stations.add(chungbuk.get());
             Optional<Station> jeonbuk = stationRepository.findById("계화면");
             if(jeonbuk.isPresent()) stations.add(jeonbuk.get());
-            Optional<Station> gyeonggi = stationRepository.findById("가남읍");
+            Optional<Station> gyeonggi = stationRepository.findById("용문면");
             if(gyeonggi.isPresent()) stations.add(gyeonggi.get());
             Optional<Station> chungnam = stationRepository.findById("공주");
             if(chungnam.isPresent()) stations.add(chungnam.get());
