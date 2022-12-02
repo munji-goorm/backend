@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, String> {
 
-    List<Address> findByFullAddrContaining(String keyword);
+    List<Address> findTop30ByFullAddrContaining(String keyword);
 }

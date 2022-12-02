@@ -178,12 +178,10 @@ public class MainService {
         responseJson.addProperty("status", 200);
         responseJson.addProperty("success", true);
 
-        List<Address> searchResult = addressRepository.findByFullAddrContaining(keyword);
+        List<Address> searchResult = addressRepository.findTop30ByFullAddrContaining(keyword);
         List<AddressResponse> addressResponses = new ArrayList<>();
 
-        int count = 0;
         for(Address addr: searchResult) {
-            if(count == 30) break;
             AddressResponse addressResponse = AddressResponse.builder()
                     .fullAddr(addr.getFullAddr())
                     .shortAddr(addr.getShortAddr())
@@ -191,7 +189,6 @@ public class MainService {
                     .yCoord(addr.getYCoord())
                     .build();
             addressResponses.add(addressResponse);
-            count++;
         }
         responseJson.add("data", JsonParser.parseString(gson.toJson(addressResponses)));
 
