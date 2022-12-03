@@ -143,18 +143,20 @@ public class MainService {
             JsonObject nationwide = new JsonObject();
             JsonObject nationwideValue = new JsonObject();
             for(String cityName: cityList) {
-                List<Air> cityAirs = airRepository.findBySidoName(cityName);
-                int normalCnt = 0;
-                int totalKhaiValue = 0;
-                for(Air cityAir: cityAirs) {
-                    if(cityAir.getKhaiValue() != -1) {
-                        normalCnt++;
-                        totalKhaiValue += cityAir.getKhaiValue();
-                    }
-                }
-                int avgKhaiValue = totalKhaiValue / normalCnt;
-                nationwide.addProperty(cityName, calStateInteger(avgKhaiValue, "khai"));
-                nationwideValue.addProperty(cityName, avgKhaiValue);
+//                List<Air> cityAirs = airRepository.findBySidoName(cityName);
+//                int normalCnt = 0;
+//                int totalKhaiValue = 0;
+//                for(Air cityAir: cityAirs) {
+//                    if(cityAir.getKhaiValue() != -1) {
+//                        normalCnt++;
+//                        totalKhaiValue += cityAir.getKhaiValue();
+//                    }
+//                }
+//                int avgKhaiValue = totalKhaiValue / normalCnt;
+//                nationwide.addProperty(cityName, calStateInteger(avgKhaiValue, "khai"));
+//                nationwideValue.addProperty(cityName, avgKhaiValue);
+                nationwide.addProperty(cityName, 56);
+                nationwideValue.addProperty(cityName, "좋음");
             }
 
             data.add("nationwide", nationwide);
