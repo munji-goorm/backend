@@ -28,11 +28,15 @@ public class Address {
     @Column(name = "y_coord")
     private Double yCoord;
 
+    @Column(name="station_name")
+    private String stationName;
+
     @Builder
-    public Address(String fullAddr, String shortAddr, Double xCoord, Double yCoord) {
+    public Address(String fullAddr, String shortAddr, Double xCoord, Double yCoord, String stationName) {
         this.fullAddr = fullAddr;
         this.shortAddr = shortAddr;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
+        this.stationName = stationName;
     }
 }

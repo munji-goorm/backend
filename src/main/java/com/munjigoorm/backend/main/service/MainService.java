@@ -75,18 +75,24 @@ public class MainService {
     }
 
     @Cacheable("main")
-    public String getAirInfo(String latitude, String longitude) {
-        // 위도와 경도를 통해 주소와 측정소 이름을 알아낸다.
-        List<String> apiResult = getAddrAndStationNameAndShorAddr(latitude, longitude);
-        String addr = apiResult.get(0);
-        String stationName = apiResult.get(1);
-        String shortAddr = apiResult.get(2);
+    public String getAirInfo(String fullAddr) {
+        // fullAddr로 측정소 이름, city, shortAddr 알아내기
+        String[] parsedAddr = fullAddr.split(" ");
+        String stationName = null;
+        String shortAddr = null;
+
+        Optional<Address> locInfo = addressRepository.findById(fullAddr);
+        if(locInfo.isPresent()) {
+            Address address = locInfo.get();
+            stationName = address.getStationName();
+            shortAddr = address.getShortAddr();
+        }
 
         JsonObject responseJson = new JsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         // 측정소 주소로 city 알아내기
-        String city = addr.substring(0,2);
+        String city = parsedAddr[0];
 
         // 해당하는 stationName이 DB에 저장되어 있는지 확인
         Optional<Air> air = airRepository.findById(stationName);
@@ -143,20 +149,18 @@ public class MainService {
             JsonObject nationwide = new JsonObject();
             JsonObject nationwideValue = new JsonObject();
             for(String cityName: cityList) {
-//                List<Air> cityAirs = airRepository.findBySidoName(cityName);
-//                int normalCnt = 0;
-//                int totalKhaiValue = 0;
-//                for(Air cityAir: cityAirs) {
-//                    if(cityAir.getKhaiValue() != -1) {
-//                        normalCnt++;
-//                        totalKhaiValue += cityAir.getKhaiValue();
-//                    }
-//                }
-//                int avgKhaiValue = totalKhaiValue / normalCnt;
-//                nationwide.addProperty(cityName, calStateInteger(avgKhaiValue, "khai"));
-//                nationwideValue.addProperty(cityName, avgKhaiValue);
-                nationwide.addProperty(cityName, 56);
-                nationwideValue.addProperty(cityName, "좋음");
+                List<Air> cityAirs = airRepository.findBySidoName(cityName);
+                int normalCnt = 0;
+                int totalKhaiValue = 0;
+                for(Air cityAir: cityAirs) {
+                    if(cityAir.getKhaiValue() != -1) {
+                        normalCnt++;
+                        totalKhaiValue += cityAir.getKhaiValue();
+                    }
+                }
+                int avgKhaiValue = totalKhaiValue / normalCnt;
+                nationwide.addProperty(cityName, calStateInteger(avgKhaiValue, "khai"));
+                nationwideValue.addProperty(cityName, avgKhaiValue);
             }
 
             data.add("nationwide", nationwide);

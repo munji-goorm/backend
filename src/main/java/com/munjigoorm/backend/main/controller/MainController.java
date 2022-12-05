@@ -15,12 +15,13 @@ public class MainController {
     private MainService mainService;
 
     @GetMapping
-    public String airInfo(@RequestParam String latitude, @RequestParam String longitude) throws UnsupportedEncodingException {
-        return mainService.getAirInfo(latitude, longitude);
+    public String airInfo(@RequestParam String fullAddr) throws UnsupportedEncodingException {
+        String addr = URLDecoder.decode(fullAddr, "UTF-8");
+        return mainService.getAirInfo(addr);
     }
 
     @GetMapping(value = "/search")
-    public String airInfo(@RequestParam String keyword) throws UnsupportedEncodingException {
+    public String searchRegion(@RequestParam String keyword) throws UnsupportedEncodingException {
         String searchKeyword = URLDecoder.decode(keyword, "UTF-8");
         return mainService.getRegionList(searchKeyword);
     }
