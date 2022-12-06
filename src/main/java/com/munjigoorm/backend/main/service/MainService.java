@@ -12,29 +12,16 @@ import com.munjigoorm.backend.main.repository.ForeCastRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class MainService {
-    @Value("${kakao_api_key}")
-    private final String KAKAO_API_KEY = null;
-
-    @Value("${open_api_key}")
-    private final String OPEN_API_KEY = null;
-
     public static final List<String> cityList;
     static {
         cityList = new ArrayList<>();
@@ -236,87 +223,4 @@ public class MainService {
         return null;
     }
 
-    public List<String> getAddrAndStationNameAndShorAddr(String latitude, String longitude) {
-        List<String> addrAndStationName = new ArrayList<>();
-
-        // 위도, 경도 TM 좌표로 변환
-        String tmApiUrl = "https://dapi.kakao.com/v2/local/geo/transcoord.json?" +
-                "x=" + longitude + "&y=" + latitude +
-                "&input_coord=WGS84&output_coord=TM";
-        String tmJsonString = null;
-        double tmX = 0, tmY = 0;
-
-        tmJsonString = execApi(tmApiUrl, KAKAO_API_KEY);
-
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jsonObject = (JsonObject)jsonParser.parse(tmJsonString);
-        JsonArray documents = (JsonArray) jsonObject.get("documents");
-        JsonObject tm = (JsonObject) documents.get(0);
-        tmX = Double.parseDouble(tm.get("x").getAsString());
-        tmY = Double.parseDouble(tm.get("y").getAsString());
-
-        // TM좌표로 근접 측정소 찾아내기
-        String nearApiUrl = "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList?" +
-                "serviceKey=" + OPEN_API_KEY + "&returnType=json" +
-                "&tmX=" + tmX + "&tmY=" + tmY;
-        String nearJsonString = null;
-
-        nearJsonString = execApi(nearApiUrl, OPEN_API_KEY);
-
-        JsonObject nearJsonObject = (JsonObject)jsonParser.parse(nearJsonString);
-        JsonObject response = (JsonObject)nearJsonObject.get("response");
-        JsonObject body = (JsonObject)response.get("body");
-        JsonArray items = (JsonArray)body.get("items");
-        JsonObject nearStationInfo = (JsonObject) items.get(0);
-
-        String addr = nearStationInfo.get("addr").getAsString();
-        String stationName = nearStationInfo.get("stationName").getAsString();
-
-        // 위도 경도로 주소 알아내기
-        String addrApiUrl = "https://dapi.kakao.com/v2/local/geo/coord2address.json?" +
-                "x=" + longitude + "&y=" + latitude +
-                "&input_coord=WGS84";
-        String addrJsonString = null;
-
-        addrJsonString = execApi(addrApiUrl, KAKAO_API_KEY);
-
-        JsonObject addrJsonObject = (JsonObject)jsonParser.parse(addrJsonString);
-        JsonArray addrDocuments = (JsonArray)addrJsonObject.get("documents");
-        JsonObject twoAddress = (JsonObject) addrDocuments.get(0);
-        JsonObject address = (JsonObject) twoAddress.get("address");
-
-        String shortAddr = address.get("region_2depth_name").toString() + " " + address.get("region_3depth_name").toString();
-        shortAddr = shortAddr.replaceAll("\"", "");
-
-        addrAndStationName.add(addr);
-        addrAndStationName.add(stationName);
-        addrAndStationName.add(shortAddr);
-
-        return addrAndStationName;
-    }
-
-    public String execApi(String apiUrl, String apiKey) {
-        try{
-            URL url = new URL(apiUrl);
-            URLConnection conn = url.openConnection();
-            conn.setRequestProperty("Authorization", "KakaoAK " + apiKey);
-
-            BufferedReader rd = null;
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuffer docJson = new StringBuffer();
-
-            String line;
-
-            while ((line=rd.readLine()) != null) {
-                docJson.append(line);
-            }
-
-            rd.close();
-            return docJson.toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
