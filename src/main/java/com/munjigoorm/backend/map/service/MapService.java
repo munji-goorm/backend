@@ -114,19 +114,19 @@ public class MapService {
             if(seoul.isPresent()) stations.add(seoul.get());
             Optional<Station> ulsan = stationRepository.findById("대송동");
             if(ulsan.isPresent()) stations.add(ulsan.get());
-            Optional<Station> chungbuk = stationRepository.findById("가덕면");
+            Optional<Station> chungbuk = stationRepository.findById("덕산읍");
             if(chungbuk.isPresent()) stations.add(chungbuk.get());
-            Optional<Station> jeonbuk = stationRepository.findById("계화면");
+            Optional<Station> jeonbuk = stationRepository.findById("관촌면");
             if(jeonbuk.isPresent()) stations.add(jeonbuk.get());
             Optional<Station> gyeonggi = stationRepository.findById("용문면");
             if(gyeonggi.isPresent()) stations.add(gyeonggi.get());
-            Optional<Station> chungnam = stationRepository.findById("공주");
+            Optional<Station> chungnam = stationRepository.findById("내포");
             if(chungnam.isPresent()) stations.add(chungnam.get());
             Optional<Station> busan = stationRepository.findById("개금동");
             if(busan.isPresent()) stations.add(busan.get());
             Optional<Station> gangwon = stationRepository.findById("평창읍");
             if(gangwon.isPresent()) stations.add(gangwon.get());
-            Optional<Station> gyeongbuk = stationRepository.findById("평화남산동");
+            Optional<Station> gyeongbuk = stationRepository.findById("가흥동");
             if(gyeongbuk.isPresent()) stations.add(gyeongbuk.get());
             Optional<Station> daejeon = stationRepository.findById("둔산동");
             if(daejeon.isPresent()) stations.add(daejeon.get());
@@ -138,11 +138,11 @@ public class MapService {
             if(daegu.isPresent()) stations.add(daegu.get());
             Optional<Station> incheon = stationRepository.findById("송도");
             if(incheon.isPresent()) stations.add(incheon.get());
-            Optional<Station> jeonnam = stationRepository.findById("여천동(여수)");
+            Optional<Station> jeonnam = stationRepository.findById("강진읍");
             if(jeonnam.isPresent()) stations.add(jeonnam.get());
             Optional<Station> gwangju = stationRepository.findById("서석동");
             if(gwangju.isPresent()) stations.add(gwangju.get());
-            Optional<Station> gyeongnam = stationRepository.findById("경화동");
+            Optional<Station> gyeongnam = stationRepository.findById("정촌면");
             if(gyeongnam.isPresent()) stations.add(gyeongnam.get());
 
             mapResponses = getStationInfo(stations, mapResponses, "all", 0);
