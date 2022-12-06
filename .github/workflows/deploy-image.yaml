@@ -45,7 +45,7 @@ jobs:
     - name: Edit Manifest Image
       run: |
         cd manifest
-        sed -i "50 c\        image: 320451040304.dkr.ecr.ap-northeast-2.amazonaws.com/munji-backend:${{ github.sha }}" back-deploy.yaml
+        sed -i "40 c\        image: 320451040304.dkr.ecr.ap-northeast-2.amazonaws.com/munji-backend:${{ github.sha }}" back-deploy.yaml
         git config --global user.email "no02031@naver.com"
         git config --global user.name "soyeonnn"
         git add .
