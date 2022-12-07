@@ -32,7 +32,7 @@
  
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> 팀원 소개
 
-| | | |<img src="https://user-images.githubusercontent.com/54930365/175469606-f2805692-eeee-4212-a6d4-c599085be9b0.jpeg" width="130" height="130">  | 
+|<img src="https://user-images.githubusercontent.com/50646042/206124094-f269610d-584d-4f45-acc3-bf091fddc49f.png" width="130" height="130">|<img src="https://user-images.githubusercontent.com/50646042/206124338-f73f52c5-d918-40cc-9071-b152c1aeff34.png" width="130" height="130">|<img src="https://user-images.githubusercontent.com/50646042/206124383-5744b864-d9d6-49e6-996e-463e8c5a3d2f.png" width="130" height="130">|<img src="https://user-images.githubusercontent.com/50646042/206124428-059e4018-21e4-43d1-af1a-e27026e8987b.png" width="130" height="130">  | 
 |:-------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------:| 
 | 이은 | 박경수 | 신재민 | 황소연 |
 |[oduodg github](https://github.com/oduodg)|[ksee1230 github](https://github.com/ksee1230)|[Zemni98 github](https://github.com/Zemni98)|[soyeonnn github](https://github.com/soyeonnn) |  
