@@ -8,12 +8,17 @@
 또한, 실시간 CCTV 영상을 제공하여 실시간 대기 상태를 빠르게 확인할 수 있습니다.
 
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> 와이어프레임
-<p align="center"><img src="https://user-images.githubusercontent.com/50646042/203454103-24e725e9-7840-4bbd-b9ae-48a60e7878b6.png" width="600" height="1100"/> 
-<img src="https://user-images.githubusercontent.com/50646042/203454359-8b379062-ad31-4150-beda-fd98e2d5b358.png" width="500" height="800"/>
-<img src="https://user-images.githubusercontent.com/50646042/203454807-1f31aa93-8a53-43f5-a94f-b66af2a21c42.png" width="500" height="800"/>
-  
-## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> AWS 설계도
-![image](https://user-images.githubusercontent.com/50646042/203455365-6d5cb440-dd54-4d7d-9355-7a4b320208bb.png)
+<img src="https://user-images.githubusercontent.com/50646042/206125278-8f972bd5-fb88-46a7-8371-67ff7cf443d3.png" width="1000" height="500"/>
+<img src="https://user-images.githubusercontent.com/50646042/206125638-243b2a46-cee7-4f12-adb0-3d76ac5827f0.png" width="1000" height="500"/>
+<img src="https://user-images.githubusercontent.com/50646042/206125755-c2a9781b-f7c2-430e-ba6c-96c828981209.png" width="1000" height="500"/>
+<img src="https://user-images.githubusercontent.com/50646042/206125541-d394e03c-77a5-4554-8360-d3746d1eda47.png" width="1000" height="500"/>
+<img src="https://user-images.githubusercontent.com/50646042/206125992-b3da4681-cc9b-4903-a375-4ca4bf7ff759.png" width="1000" height="500"/>
+
+## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> AWS EKS 설계도
+![image](https://user-images.githubusercontent.com/50646042/206124948-117dffc7-8c4f-4331-a2e6-47966db0c99b.png)
+
+## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> AWS Serverless 설계도
+![image](https://user-images.githubusercontent.com/50646042/206125109-651125e1-560c-4bd7-a641-47a7867ed02f.png)
   
 ## <img src="https://user-images.githubusercontent.com/50646042/203447415-161a3cd3-3fe9-41e9-98e8-2e8d41a7e127.png" width="30" height="30"/> 주요 기술 및 라이브러리
 #### Frontend
