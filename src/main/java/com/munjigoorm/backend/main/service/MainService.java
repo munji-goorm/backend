@@ -55,7 +55,7 @@ public class MainService {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Scheduled(cron = "20 * * * * *")
+    @Scheduled(cron = "* 20 * * * *")
     @CacheEvict(value = "main", allEntries = true)
     public void emptyMainCache() {
         logger.info("[CACHE_DELETE] empty main cache {}", LocalDateTime.now());
